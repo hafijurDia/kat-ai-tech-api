@@ -40,6 +40,42 @@ app.get('/api/tiktok/:username', async (req, res) => {
     }
 });
 
+// getting video information
+
+app.get('/api/tiktok/video/:secid', async (req, res) => {
+    const { secid } = req.params;
+    console.log(secid);
+
+    const options = {
+        method: 'GET',
+        url: 'https://tiktok-api23.p.rapidapi.com/api/user/posts',
+        params: {
+          secUid: secid,
+          count: '15',
+          cursor: '0'
+        },
+        headers: {
+          'x-rapidapi-key': RAPIDAPI_KEY, // Use the environment variable here
+          'x-rapidapi-host': 'tiktok-api23.p.rapidapi.com'
+        }
+      };
+      
+      try {
+        // Make the request to the RapidAPI TikTok API
+        const response = await axios.request(options);
+        
+        // Send the user data back to the frontend and return immediately to avoid further execution
+        return res.json(response.data);
+
+      } catch (error) {
+        // Log the exact error for debugging
+        console.error('Error fetching TikTok user data:', error.response?.data || error.message);
+
+        // Return the error response to the client
+        return res.status(500).json({ message: 'Error fetching TikTok user data' });
+      }
+});
+
 
 
 
