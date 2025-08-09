@@ -3,12 +3,18 @@ const axios = require('axios');
 require('dotenv').config();
 const cors = require('cors'); // Import the CORS middleware
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Replace with your actual RapidAPI key
 const RAPIDAPI_KEY = process.env.RAPID_API;
 // Enable CORS for all routes
-app.use(cors());
+
+const corsOptions = {
+  origin: ['https://appkat63.live', 'https://kataitech.live'], 
+  methods: ['GET', 'POST'], // Add other methods if needed
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -42,15 +48,14 @@ app.get('/api/tiktok/:username', async (req, res) => {
 
 // getting video information
 
-app.get('/api/tiktok/video/:secid', async (req, res) => {
-    const { secid } = req.params;
-    console.log(secid);
-
+app.get('/api/tiktok/video/:seconderyId', async (req, res) => {
+    const { seconderyId } = req.params;
+    
     const options = {
         method: 'GET',
         url: 'https://tiktok-api23.p.rapidapi.com/api/user/posts',
         params: {
-          secUid: secid,
+          secUid: seconderyId,
           count: '15',
           cursor: '0'
         },
@@ -63,7 +68,6 @@ app.get('/api/tiktok/video/:secid', async (req, res) => {
       try {
         // Make the request to the RapidAPI TikTok API
         const response = await axios.request(options);
-        
         // Send the user data back to the frontend and return immediately to avoid further execution
         return res.json(response.data);
 
