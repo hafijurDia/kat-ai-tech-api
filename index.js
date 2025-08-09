@@ -10,7 +10,7 @@ const RAPIDAPI_KEY = process.env.RAPID_API;
 // Enable CORS for all routes
 
 const corsOptions = {
-  origin: ['https://appkat63.live', 'https://kataitech.live'], 
+  origin: ['https://appkat63.live', 'https://kataitech.live','https://kat-ai-tech-api.vercel.app'], 
   methods: ['GET', 'POST'], // Add other methods if needed
   credentials: true,
 };
